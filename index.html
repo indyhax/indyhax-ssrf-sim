@@ -1,0 +1,24 @@
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>IndyHAX â€¢ SSRF (Sim)</title>
+<style>body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px}.card{border:1px solid #ddd;border-radius:12px;padding:18px;background:#fff}.muted{color:#666}input{padding:10px 12px;border-radius:10px;border:1px solid #ddd;width:min(620px,100%)}button{padding:10px 12px;border-radius:10px;border:1px solid #111;background:#111;color:#fff;margin-left:6px}pre{margin-top:12px;padding:12px;border-radius:10px;background:#f6f8fa;border:1px solid #e5e7eb;white-space:pre-wrap}</style>
+</head><body>
+<h1>IndyHAX CTF â€” SSRF (Simulated)</h1>
+<div class="card">
+<p class="muted">It only allows fetching from <code>https://example.com</code>â€¦ supposedly.</p>
+<p><input id="u" value="https://example.com/"/><button id="go">Fetch</button></p>
+<pre id="out"></pre>
+</div>
+<script>
+  const secret = atob('SU5EWUhBWHt1cmxfdmFsaWRhdGlvbl9pc19oYXJkZXJfdGhhbl9pdF9sb29rc30=');
+  document.querySelector('#go').addEventListener('click', async () => {
+    const u = document.querySelector('#u').value.trim();
+    // naive allowlist
+    if (!u.startsWith('https://example.com')) {
+      document.querySelector('#out').textContent = 'blocked';
+      return;
+    }
+    // simulated fetch
+    document.querySelector('#out').textContent = (u.includes('@')) ? secret : 'fetched ok';
+  });
+</script>
+</body></html>
